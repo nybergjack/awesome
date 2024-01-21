@@ -16,18 +16,18 @@ theme.font          = "JetBrainsMono Nerd Font 10"
 theme.useless_gap = 5
 theme.border_width = 1
 
-theme.black = "#1e1e28"
-theme.deep_black = "#1b1923"
+theme.black = "#11111b"
+theme.deep_black = "#11111b"
 theme.white = "#d7dae0"
 theme.light_white = "#fafafa"
-theme.pink = "#f0afe1"
-theme.red = "#e28c8c"
-theme.orange = "#f9c096"
-theme.yellow = "#eadda0"
-theme.green = "#b3e1a3"
-theme.blue = "#a4b9ef"
-theme.purple = "#c6aae8"
-theme.grey = "#6e6c7c"
+theme.pink = "#f5c2e7"
+theme.red = "#f38ba8"
+theme.orange = "#fab387"
+theme.yellow = "#f9e2af"
+theme.green = "#a6e3a1"
+theme.blue = "#89b4fa"
+theme.purple = "#cba6f7"
+theme.grey = "#6c7086"
 
 theme.bg_normal = theme.black
 theme.bg_focus = theme.deep_black
@@ -36,12 +36,12 @@ theme.bg_minimize = theme.grey
 theme.bg_systray = theme.black
 
 theme.fg_normal = theme.white
-theme.fg_focus = theme.orange
+theme.fg_focus = theme.blue
 theme.fg_urgent = theme.red
 theme.fg_minimize = theme.light_white
 
-theme.border_normal = theme.blue
-theme.border_focus = theme.green
+theme.border_normal = theme.grey
+theme.border_focus = theme.blue
 theme.border_marked = theme.purple
 
 -- There are other variable sets
