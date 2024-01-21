@@ -1,0 +1,2 @@
+# awesome
+Awesome window manager
