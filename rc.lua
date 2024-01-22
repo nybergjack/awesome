@@ -116,8 +116,32 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
+
+-- Costom widgets 
+
+-- Logout widget
+local logout_menu_widget = require("awesome-wm-widgets.logout-menu-widget.logout-menu")
+
+-- Calender widget
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+
+local cw = calendar_widget({
+    theme = 'nord',
+    placement = 'top_center',
+    start_sunday = false,
+    radius = 8,
+-- with customized next/previous (see table above)
+    previous_month_button = 1,
+    next_month_button = 3,
+})
+mytextclock:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
+
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -211,7 +235,9 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
-    s.mywibox:setup {
+   s.mywibox:setup {
+    layout = wibox.layout.stack,
+    {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
@@ -219,17 +245,27 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytaglist,
             s.mypromptbox,
         },
-        s.mytasklist, -- Middle widget
+        nil,
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
-            mytextclock,
             s.mylayoutbox,
+            logout_menu_widget{
+              font = 'JetBrainsMono Nerd Font 14',
+            },
         },
+    },
+    {
+        mytextclock,
+        valign = "center",
+        halign = "center",
+        layout = wibox.container.place
     }
+} 
 end)
 -- }}}
 
+           
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -305,6 +341,12 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "r", function () awful.util.spawn("rofi -show drun") end,
               {description = "luanch rofi", group = "launcher"}),
+
+    awful.key({ modkey,           }, "e", function () awful.spawn("thunar") end,
+              {description = "luanch thunar", group = "launcher"}),
+
+    awful.key({ modkey,           }, "x", function () awful.util.spawn("wlogout") end,
+              {description = "luanch wlogout", group = "launcher"}),
    ------------------------------------------------------------------------- 
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
@@ -346,7 +388,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "r",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
 
-    awful.key({ modkey }, "x",
+    awful.key({ modkey, "Shift" }, "x",
               function ()
                   awful.prompt.run {
                     prompt       = "Run Lua code: ",
